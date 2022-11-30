@@ -1,23 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createGlobalStyle } from 'styled-components';
-import App from './App';
-import bgImage from './img/bg.jpg';
-
-const GlobalStyles = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    background: url(${bgImage}) #000;
-    background-size: cover;
-    background-position: center;
-  }
-`;
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
+import MainLayout from "./mainLayout/MainLayout";
 
 ReactDOM.render(
-  <>
-    <GlobalStyles />
-    <App />
-  </>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <MainLayout />
+  </Provider>,
+  document.getElementById("root")
 );

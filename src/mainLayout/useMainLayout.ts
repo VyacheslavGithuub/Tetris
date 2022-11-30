@@ -1,21 +1,11 @@
-import React from 'react';
-import { createStage, isColliding } from './gameHelpers';
+import React from "react";
+import { createStage, isColliding } from "../hooks/gameHelpers";
+import { useGameStatus } from "../hooks/useGameStatus";
+import { useInterval } from "../hooks/useInterval";
+import { usePlayer } from "../hooks/usePlayer";
+import { useStage } from "../hooks/useStage";
 
-// Custom hooks
-import { useInterval } from './hooks/useInterval';
-import { usePlayer } from './hooks/usePlayer';
-import { useStage } from './hooks/useStage';
-import { useGameStatus } from './hooks/useGameStatus';
-
-// Components
-import Stage from './components/Stage/Stage';
-import Display from './components/Display/Display';
-import StartButton from './components/StartButton/StartButton';
-
-// Styles
-import { StyledTetrisWrapper, StyledTetris } from './App.styles';
-
-const App: React.FC = () => {
+export const useMainLayout = () => {
   const [dropTime, setDroptime] = React.useState<null | number>(null);
   const [gameOver, setGameOver] = React.useState(true);
 
@@ -23,7 +13,8 @@ const App: React.FC = () => {
 
   const { player, updatePlayerPos, resetPlayer, playerRotate } = usePlayer();
   const { stage, setStage, rowsCleared } = useStage(player, resetPlayer);
-  const { score, setScore, rows, setRows, level, setLevel } = useGameStatus(rowsCleared);
+  const { score, setScore, rows, setRows, level, setLevel } =
+    useGameStatus(rowsCleared);
 
   const movePlayer = (dir: number) => {
     if (!isColliding(player, stage, { x: dir, y: 0 })) {
@@ -53,7 +44,13 @@ const App: React.FC = () => {
     setGameOver(false);
   };
 
-  const move = ({ keyCode, repeat }: { keyCode: number; repeat: boolean }): void => {
+  const move = ({
+    keyCode,
+    repeat,
+  }: {
+    keyCode: number;
+    repeat: boolean;
+  }): void => {
     if (!gameOver) {
       if (keyCode === 37) {
         movePlayer(-1);
@@ -72,7 +69,7 @@ const App: React.FC = () => {
   const drop = (): void => {
     // Increase level when player has cleared 10 rows
     if (rows > level * 10) {
-      setLevel(prev => prev + 1);
+      setLevel((prev) => prev + 1);
       // Also increase speed
       setDroptime(1000 / level + 200);
     }
@@ -82,7 +79,7 @@ const App: React.FC = () => {
     } else {
       // Game over!
       if (player.pos.y < 1) {
-        console.log('Game over!');
+        console.log("Game over!");
         setGameOver(true);
         setDroptime(null);
       }
@@ -94,27 +91,15 @@ const App: React.FC = () => {
     drop();
   }, dropTime);
 
-  return (
-    <StyledTetrisWrapper role='button' tabIndex={0} onKeyDown={move} onKeyUp={keyUp} ref={gameArea}>
-      <StyledTetris>
-        <div className='display'>
-          {gameOver ? (
-            <>
-              <Display gameOver={gameOver} text='Game Over!' />
-              <StartButton callback={handleStartGame} />
-            </>
-          ) : (
-            <>
-              <Display text={`Score: ${score}`} />
-              <Display text={`Rows: ${rows}`} />
-              <Display text={`Level: ${level}`} />
-            </>
-          )}
-        </div>
-        <Stage stage={stage} />
-      </StyledTetris>
-    </StyledTetrisWrapper>
-  );
+  return {
+    move,
+    keyUp,
+    score,
+    rows,
+    level,
+    stage,
+    gameArea,
+    gameOver,
+    handleStartGame,
+  };
 };
-
-export default App;

@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyledDisplay } from './Display.styles';
+import { IDisplayProps } from "../../types/TComponents/TComponents";
+import { DisplaySC } from "./style";
 
-type Props = {
-  gameOver?: boolean;
-  text: string;
-};
-
-const Display: React.FC<Props> = ({ gameOver, text }) => <StyledDisplay gameOver={gameOver}>{text}</StyledDisplay>;
+const Display: React.FC<IDisplayProps> = ({ gameOver, text }) => (
+  <DisplaySC gameOver={gameOver}>{text}</DisplaySC>
+);
 
 export default Display;

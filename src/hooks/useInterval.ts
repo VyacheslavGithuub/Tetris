@@ -2,12 +2,12 @@ import { useEffect, useRef } from 'react';
 
 export function useInterval(callback: () => void, delay: number | null) {
   const savedCallback = useRef<null | (() => void)>(null);
-  // Remember the latest callback.
+  //Запомните последний обратный вызов.
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
-  // Set up the interval.
+  //Установить интервал.
   useEffect(() => {
     function tick(): void {
       if (savedCallback.current) savedCallback.current();

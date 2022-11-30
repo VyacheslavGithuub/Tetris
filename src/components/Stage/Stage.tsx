@@ -1,19 +1,22 @@
 import React from 'react';
-import Cell from '../Cell/Cell';
-import { StyledStage } from './Stage.styles';
-import { TETROMINOS } from '../../setup';
+import Cell from "../Cell/style";
+import StartButton from "../StartButton/StartButton";
+import { useStyledStageStyle } from "./style";
+import { IStageProps } from "../../types/TComponents/TComponents";
 
-export type STAGECELL = [keyof typeof TETROMINOS, string];
-export type STAGE = STAGECELL[][];
+const Stage: React.FC<IStageProps> = ({ stage, startGame, gameOver }) => {
+  const { StageSC, Stage_Shadow_SC } = useStyledStageStyle();
 
-type Props = {
-  stage: STAGE;
-}
+  return (
+    <StageSC>
+      {gameOver && <StartButton callback={startGame} />}
+      <Stage_Shadow_SC gameOver={gameOver} />
+      {stage.map((row) =>
+        row.map((cell, x) => <Cell key={x} type={cell[0]} />)
+      )}
+    </StageSC>
+  );
+};
 
-const Stage: React.FC<Props> = ({ stage }) => (
-  <StyledStage>
-    {stage.map(row => row.map((cell, x) => <Cell key={x} type={cell[0]} /> ))}
-  </StyledStage>
-)
 
 export default Stage;
