@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { STAGE_WIDTH, STAGE_HEIGHT } from "../../setup";
+import { STAGE_WIDTH, STAGE_HEIGHT } from "../../hooks/setup";
 
 const StageSC = styled.div`
   width: 373px;

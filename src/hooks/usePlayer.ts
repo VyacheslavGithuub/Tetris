@@ -1,5 +1,5 @@
 import React from 'react';
-import { STAGE_WIDTH } from '../setup';
+import { STAGE_WIDTH } from "./setup";
 import { isColliding, randomTetromino } from "./gameHelpers";
 import { STAGE } from "./useStage";
 

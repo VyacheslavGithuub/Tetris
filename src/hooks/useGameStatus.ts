@@ -1,5 +1,5 @@
 import React from 'react';
-import { ROWPOINTS } from '../setup';
+import { ROWPOINTS } from "./setup";
 
 export const useGameStatus = (rowsCleared: number) => {
   const [score, setScore] = React.useState(0);

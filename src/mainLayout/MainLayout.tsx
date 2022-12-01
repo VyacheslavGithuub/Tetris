@@ -14,7 +14,7 @@ const MainLayout = () => {
 
   const { TetrisSC, TetrisWrapSC, Tetris_Workspace_SC } = useMainLayoutStyle();
   const {
-    move,
+    handleMove,
     keyUp,
     score,
     rows,
@@ -30,7 +30,7 @@ const MainLayout = () => {
       <TetrisWrapSC
         role="button"
         tabIndex={0}
-        onKeyDown={move}
+        onKeyDown={handleMove}
         onKeyUp={keyUp}
         ref={gameArea}
       >
@@ -47,7 +47,7 @@ const MainLayout = () => {
               startGame={handleStartGame}
               gameOver={gameOver}
             />
-            <ControlButtons />
+            <ControlButtons callback={handleMove} />
           </Tetris_Workspace_SC>
         </TetrisSC>
       </TetrisWrapSC>

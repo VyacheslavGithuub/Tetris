@@ -1,4 +1,4 @@
-import { TETROMINOS } from "../../setup";
+import { TETROMINOS } from "../../hooks/setup";
 
 export type STAGECELL = [keyof typeof TETROMINOS, string];
 export type STAGE = STAGECELL[][];

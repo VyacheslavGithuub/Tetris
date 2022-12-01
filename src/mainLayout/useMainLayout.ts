@@ -4,6 +4,7 @@ import { useGameStatus } from "../hooks/useGameStatus";
 import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
+import { IHandleMoveProps } from "../types/handler/handler";
 
 export const useMainLayout = () => {
   const [dropTime, setDroptime] = React.useState<null | number>(null);
@@ -24,7 +25,7 @@ export const useMainLayout = () => {
 
   const keyUp = ({ keyCode }: { keyCode: number }): void => {
     if (!gameOver) {
-      // Change the droptime speed when user releases down arrow
+      // Измените скорость droptime, когда пользователь отпускает стрелку вниз
       if (keyCode === 40) {
         setDroptime(1000 / level + 200);
       }
@@ -32,9 +33,9 @@ export const useMainLayout = () => {
   };
 
   const handleStartGame = (): void => {
-    // Need to focus the window with the key events on start
+    // Нужно сфокусировать окно с ключевыми событиями при запуске
     if (gameArea.current) gameArea.current.focus();
-    // Reset everything
+    // Сбросить все
     setStage(createStage());
     setDroptime(1000);
     resetPlayer();
@@ -44,21 +45,13 @@ export const useMainLayout = () => {
     setGameOver(false);
   };
 
-  const move = ({
-    keyCode,
-    repeat,
-  }: {
-    keyCode: number;
-    repeat: boolean;
-  }): void => {
+  const handleMove = ({ keyCode }: IHandleMoveProps): void => {
     if (!gameOver) {
       if (keyCode === 37) {
         movePlayer(-1);
       } else if (keyCode === 39) {
         movePlayer(1);
       } else if (keyCode === 40) {
-        // Just call once
-        if (repeat) return;
         setDroptime(30);
       } else if (keyCode === 38) {
         playerRotate(stage);
@@ -67,19 +60,18 @@ export const useMainLayout = () => {
   };
 
   const drop = (): void => {
-    // Increase level when player has cleared 10 rows
-    if (rows > level * 10) {
+    // Повышайте уровень, когда игрок очистит 2 ряда
+    if (rows > level * 2) {
       setLevel((prev) => prev + 1);
-      // Also increase speed
+      // Также увеличить скорость
       setDroptime(1000 / level + 200);
     }
 
     if (!isColliding(player, stage, { x: 0, y: 1 })) {
       updatePlayerPos({ x: 0, y: 1, collided: false });
     } else {
-      // Game over!
+      // Игра закончена!
       if (player.pos.y < 1) {
-        console.log("Game over!");
         setGameOver(true);
         setDroptime(null);
       }
@@ -92,7 +84,7 @@ export const useMainLayout = () => {
   }, dropTime);
 
   return {
-    move,
+    handleMove,
     keyUp,
     score,
     rows,

@@ -5,6 +5,7 @@ const initialState: ITheme = {
   main_background: "#3b3b3b",
   tetris_background: "#ffa500",
   Stage_background: "#262626",
+  arrow_fill: "#000",
 };
 
 export const themeSlice = createSlice({
