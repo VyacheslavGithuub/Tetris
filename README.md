@@ -15,5 +15,5 @@
 
 # Photo
 
-![image](https://user-images.githubusercontent.com/111220807/204906495-a7922e1a-99ca-41db-b5f7-1ed9fc147f04.png)
+![image](https://user-images.githubusercontent.com/111220807/205009160-f6b74649-94aa-4cad-8049-b3365c4e6cd3.png)
 
